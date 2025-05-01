@@ -12,13 +12,6 @@ public class SimulateurV2 {
     // Plafond de baisse maximal par demi part
     private double plafDemiPart = 1759;
 
-    private double seuilDecoteDeclarantSeul = 1929;
-    private double seuilDecoteDeclarantCouple    = 3191;
-
-    private double decoteMaxDeclarantSeul = 873;
-    private double decoteMaxDeclarantCouple = 1444;
-    private double tauxDecote = 0.4525;
-
     // revenu net
     private int rNetDecl1 = 0;
     private int rNetDecl2 = 0;
@@ -210,31 +203,16 @@ public class SimulateurV2 {
         mImp = baisseImpots.getImpotsBrutApresPlafonnement();
         System.out.println( "Impôt brut après plafonnement avant decote : " + mImp );
         mImpAvantDecote = mImp;
-//////////////////////////////////////////////////////////////////////////////////////
+
         // Calcul de la decote
         // EXIGENCE : EXG_IMPOT_06
+        Decote decoteur = new Decote(nbPtsDecl, mImp);
 
-        decote = 0;
-        // decote
-        if ( nbPtsDecl == 1 ) {
-            if ( mImp < seuilDecoteDeclarantSeul ) {
-                decote = decoteMaxDeclarantSeul - ( mImp  * tauxDecote );
-            }
-        }
-        if (  nbPtsDecl == 2 ) {
-            if ( mImp < seuilDecoteDeclarantCouple ) {
-                decote =  decoteMaxDeclarantCouple - ( mImp  * tauxDecote  );
-            }
-        }
-        decote = Math.round( decote );
-
-        if ( mImp <= decote ) {
-            decote = mImp;
-        }
+        decote = decoteur.getDecote();
 
         System.out.println( "Decote : " + decote );
 
-        mImp = mImp - decote;
+        mImp -= decote;
 
         mImp += contribExceptionnelle;
 
