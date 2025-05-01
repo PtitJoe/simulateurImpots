@@ -195,24 +195,22 @@ public class SimulateurV2 {
         // EXIGENCE : EXG_IMPOT_05
         // baisse impot
 
-        double baisseImpot = mImpDecl - mImp;
+        BaisseImpots baisseImpots = new BaisseImpots(mImpDecl, mImp, nbPts, nbPtsDecl);
+
+        double baisseImpot = baisseImpots.getBaisseImpots();
 
         System.out.println( "Baisse d'impôt : " + baisseImpot );
 
         // dépassement plafond
-        double ecartPts = nbPts - nbPtsDecl;
 
-        double plafond = (ecartPts / 0.5) * plafDemiPart;
+        double plafond = baisseImpots.getPlafondBaisseAutorise();
 
         System.out.println( "Plafond de baisse autorisée " + plafond );
 
-        if ( baisseImpot >= plafond ) {
-            mImp = mImpDecl - plafond;
-        }
-
+        mImp = baisseImpots.getImpotsBrutApresPlafonnement();
         System.out.println( "Impôt brut après plafonnement avant decote : " + mImp );
         mImpAvantDecote = mImp;
-
+//////////////////////////////////////////////////////////////////////////////////////
         // Calcul de la decote
         // EXIGENCE : EXG_IMPOT_06
 
