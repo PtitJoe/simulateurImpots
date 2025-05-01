@@ -2,7 +2,7 @@ package com.kerware.simulateurreusine;
 
 import com.kerware.SituationFamiliale;
 
-public class ImpotsNet {
+public final class ImpotsNet {
 
     private final double montantImpots;
 
@@ -10,16 +10,25 @@ public class ImpotsNet {
 
     private final double contrbutionExceptionnelle;
 
-    public ImpotsNet(double montantImpots, double decote, double contrbutionExceptionnelle) {
-        this.montantImpots = montantImpots;
-        this.decote = decote;
-        this.contrbutionExceptionnelle = contrbutionExceptionnelle;
+    public ImpotsNet(double newMontantImpots, double newDecote,
+                     double newContrbutionExceptionnelle) {
+        this.montantImpots = newMontantImpots;
+        this.decote = newDecote;
+        this.contrbutionExceptionnelle = newContrbutionExceptionnelle;
     }
 
-    public ImpotsNet(int revenuNetDeclarant1, int revenuNetDeclarant2, SituationFamiliale situationFamiliale, int nbEnfants, int nbEnfantsHandicap, boolean isParentIsole){
-        this(new BaisseImpots(revenuNetDeclarant1, revenuNetDeclarant2, situationFamiliale, nbEnfants, nbEnfantsHandicap, isParentIsole).getImpotsBrutApresPlafonnement(),
-                new Decote(revenuNetDeclarant1, revenuNetDeclarant2, situationFamiliale, nbEnfants, nbEnfantsHandicap, isParentIsole).getDecote(),
-                new ContributionExceptionnelleHautsRevenus(revenuNetDeclarant1, revenuNetDeclarant2, situationFamiliale).getContributionExceptionnelle());
+    public ImpotsNet(int revenuNetDeclarant1, int revenuNetDeclarant2,
+                     SituationFamiliale situationFamiliale, int nbEnfants,
+                     int nbEnfantsHandicap, boolean isParentIsole){
+        this(new BaisseImpots(revenuNetDeclarant1, revenuNetDeclarant2,
+                        situationFamiliale, nbEnfants, nbEnfantsHandicap,
+                        isParentIsole).getImpotsBrutApresPlafonnement(),
+                new Decote(revenuNetDeclarant1, revenuNetDeclarant2,
+                        situationFamiliale, nbEnfants, nbEnfantsHandicap,
+                        isParentIsole).getDecote(),
+                new ContributionExceptionnelleHautsRevenus(revenuNetDeclarant1,
+                        revenuNetDeclarant2, situationFamiliale)
+                        .getContributionExceptionnelle());
     }
 
     public int getImpotsNet(){

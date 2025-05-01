@@ -8,25 +8,29 @@ public class CalculImpots {
 
     private final double revenuFiscalReference;
 
-    private final static ArrayList<Integer> limites = new ArrayList<>(List.of(0, 11294, 28797, 82341, 177106, Integer.MAX_VALUE));
-    private final static ArrayList<Double> taux = new ArrayList<>(List.of(0.0, 0.11, 0.3, 0.41, 0.45));
-    public CalculImpots(double revenuFiscalReference, double nbParts) {
-        this.nbParts = nbParts;
-        this.revenuFiscalReference = revenuFiscalReference;
+    private final static ArrayList<Integer> LIMITES =
+            new ArrayList<>(List.of(0, 11294, 28797, 82341,
+                    177106, Integer.MAX_VALUE));
+    private final static ArrayList<Double> TAUX =
+            new ArrayList<>(List.of(0.0, 0.11, 0.3, 0.41, 0.45));
+    public CalculImpots(double newRevenuFiscalReference, double newNbParts) {
+        this.nbParts = newNbParts;
+        this.revenuFiscalReference = newRevenuFiscalReference;
     }
 
-    public CalculImpots(int revenuNetDeclarant1, int revenuNetDeclarant2,double nbParts){
-        this(Abattement.getRevenuFiscalDeReference(revenuNetDeclarant1, revenuNetDeclarant2), nbParts);
+    public CalculImpots(int revenuNetDeclarant1, int revenuNetDeclarant2,double newNbParts){
+        this(Abattement.getRevenuFiscalDeReference(revenuNetDeclarant1,
+                revenuNetDeclarant2), newNbParts);
     }
-    public double getImpots(){
+    public final double getImpots(){
         double montantImpotDeclarant = 0;
         double revenuImposable = getRevenusImposables();
-        for (int i = 0; i < 5; i++) {
-            if ( revenuImposable >= limites.get(i) && revenuImposable < limites.get(i+1) ) {
-                montantImpotDeclarant += ( revenuImposable - limites.get(i) ) * taux.get(i);
+        for (int i = 0; i < LIMITES.size() - 1; i++) {
+            if ( revenuImposable >= LIMITES.get(i) && revenuImposable < LIMITES.get(i+1) ) {
+                montantImpotDeclarant += ( revenuImposable - LIMITES.get(i) ) * TAUX.get(i);
                 break;
             } else {
-                montantImpotDeclarant += ( limites.get(i+1) - limites.get(i) ) * taux.get(i);
+                montantImpotDeclarant += ( LIMITES.get(i+1) - LIMITES.get(i) ) * TAUX.get(i);
             }
         }
 
@@ -35,7 +39,7 @@ public class CalculImpots {
         return Math.round(montantImpotDeclarant);
     }
 
-    public double getRevenusImposables(){
+    public final double getRevenusImposables(){
         return revenuFiscalReference / nbParts;
     }
 }

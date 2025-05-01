@@ -3,7 +3,7 @@ package com.kerware.simulateurreusine;
 import com.kerware.ICalculateurImpot;
 import com.kerware.SituationFamiliale;
 
-public class AdaptateurSimulateurV2 implements ICalculateurImpot {
+public final class AdaptateurSimulateurV2 implements ICalculateurImpot {
     private SimulateurV2 simulateur;
     private int revenusNetDecl1 = 0;
     private int revenusNetDecl2 = 0;

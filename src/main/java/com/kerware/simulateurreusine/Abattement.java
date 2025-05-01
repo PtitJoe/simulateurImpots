@@ -1,19 +1,23 @@
 package com.kerware.simulateurreusine;
-public class Abattement {
-    private final static double tauxAbattement = 0.1;
 
-    private final static double lAbattementMax = 14171;
-    private final static double lAbattementMin = 495;
+// Abattement
+// EXIGENCE : EXG_IMPOT_02
+public class Abattement {
+    private final static double TAUX_ABATTEMENT = 0.1;
+    private final static double LIMITES_ABATTEMENT_MAX = 14171;
+    private final static double LIMITES_ABATTEMENT_MIN = 495;
 
     public static double getAbbatement(int revenuNetDeclarant){
-        if (revenuNetDeclarant == 0) return 0;
+        if (revenuNetDeclarant == 0) {
+            return 0;
+        }
 
         //calcul abbattment
-        double abbatement = revenuNetDeclarant * tauxAbattement;
+        double abbatement = revenuNetDeclarant * TAUX_ABATTEMENT;
 
         //majoration et minoration de l'abbatement
-        abbatement = Math.max(abbatement, lAbattementMin);
-        abbatement = Math.min(abbatement, lAbattementMax);
+        abbatement = Math.max(abbatement, LIMITES_ABATTEMENT_MIN);
+        abbatement = Math.min(abbatement, LIMITES_ABATTEMENT_MAX);
 
         return Math.max(abbatement, 0); //on vérifie que l'abbatement soit positif
     }
@@ -26,7 +30,8 @@ public class Abattement {
         return revenuNetDeclarant - getAbbatement(revenuNetDeclarant);
     }
 
-    public static double getRevenuFiscalDeReference(int revenuNetDeclarant1, int revenuNetDeclarant2){
+    public static double getRevenuFiscalDeReference(int revenuNetDeclarant1,
+                                                    int revenuNetDeclarant2){
         return appliquer(revenuNetDeclarant1) + appliquer(revenuNetDeclarant2);
     }
 }
