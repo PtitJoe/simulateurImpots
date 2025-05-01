@@ -24,31 +24,6 @@ public class SimulateurV2 {
 
     private double[] taux = new double[5];
 
-    // Les limites des tranches pour la contribution exceptionnelle sur les hauts revenus
-    private int lce00 = 0;
-    private int lce01 = 250000;
-    private int lce02 = 500000;
-    private int lce03 = 1000000;
-    private int lce04 = Integer.MAX_VALUE;
-
-    private int[] limitesCEHR = new int[5];
-
-    // Les taux de la contribution exceptionnelle sur les hauts revenus pour les celibataires
-    private double tce00 = 0.0;
-    private double tce01 = 0.03;
-    private double tce02 = 0.04;
-    private double tce03 = 0.04;
-
-    private double[] tauxCEHRCelibataire = new double[4];
-
-    // Les taux de la contribution exceptionnelle sur les hauts revenus pour les couples
-    private double tce00C = 0.0;
-    private double tce01C = 0.0;
-    private double tce02C = 0.03;
-    private double tce03C = 0.04;
-
-    private double[] tauxCEHRCouple = new double[4];
-
     // Abattement
     private  int lAbtMax = 14171;
     private  int lAbtMin = 495;
@@ -198,22 +173,6 @@ public class SimulateurV2 {
         taux[3] = t03;
         taux[4] = t04;
 
-        limitesCEHR[0] = lce00;
-        limitesCEHR[1] = lce01;
-        limitesCEHR[2] = lce02;
-        limitesCEHR[3] = lce03;
-        limitesCEHR[4] = lce04;
-
-        tauxCEHRCelibataire[0] = tce00;
-        tauxCEHRCelibataire[1] = tce01;
-        tauxCEHRCelibataire[2] = tce02;
-        tauxCEHRCelibataire[3] = tce03;
-
-        tauxCEHRCouple[0] = tce00C;
-        tauxCEHRCouple[1] = tce01C;
-        tauxCEHRCouple[2] = tce02C;
-        tauxCEHRCouple[3] = tce03C;
-
         System.out.println("--------------------------------------------------");
         System.out.println( "Revenu net declarant1 : " + rNetDecl1 );
         System.out.println( "Revenu net declarant2 : " + rNetDecl2 );
@@ -242,25 +201,9 @@ public class SimulateurV2 {
 
         // EXIGENCE : EXG_IMPOT_07:
         // Contribution exceptionnelle sur les hauts revenus
-        contribExceptionnelle = 0;
-        int i = 0;
-        do {
-            if ( rFRef >= limitesCEHR[i] && rFRef < limitesCEHR[i+1] ) {
-                if ( nbPtsDecl == 1 ) {
-                    contribExceptionnelle += ( rFRef - limitesCEHR[i] ) * tauxCEHRCelibataire[i];
-                } else {
-                    contribExceptionnelle += ( rFRef - limitesCEHR[i] ) * tauxCEHRCouple[i];
-                }
-                break;
-            } else {
-                if ( nbPtsDecl == 1 ) {
-                    contribExceptionnelle += ( limitesCEHR[i+1] - limitesCEHR[i] ) * tauxCEHRCelibataire[i];
-                } else {
-                    contribExceptionnelle += ( limitesCEHR[i+1] - limitesCEHR[i] ) * tauxCEHRCouple[i];
-                }
-            }
-            i++;
-        } while( i < 5);
+        ContributionExceptionnelleHautsRevenus contribution = new ContributionExceptionnelleHautsRevenus(revenuFiscalDeReference, sitFam);
+        contribExceptionnelle = contribution.getContributionExceptionnelle();
+
 
         contribExceptionnelle = Math.round( contribExceptionnelle );
         System.out.println( "Contribution exceptionnelle sur les hauts revenus : " + contribExceptionnelle );
@@ -271,7 +214,7 @@ public class SimulateurV2 {
 
         mImpDecl = 0;
 
-        i = 0;
+        int i = 0;
         do {
             if ( rImposable >= limites[i] && rImposable < limites[i+1] ) {
                 mImpDecl += ( rImposable - limites[i] ) * taux[i];
