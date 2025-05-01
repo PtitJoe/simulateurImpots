@@ -22,6 +22,10 @@ public class ContributionExceptionnelleHautsRevenus {
         this.estEnCouple = situationFamiliale == SituationFamiliale.MARIE || situationFamiliale == SituationFamiliale.PACSE;
     }
 
+    public ContributionExceptionnelleHautsRevenus(int revenuNetDeclarant1, int revenuNetDeclarant2, SituationFamiliale situationFamiliale){
+        this(Abattement.getRevenuFiscalDeReference(revenuNetDeclarant1, revenuNetDeclarant2), situationFamiliale);
+    }
+
     public double getContributionExceptionnelle(){
         double contributionExceptionelle = 0;
         for (int i = 0; i < 5; i++) {
@@ -40,6 +44,6 @@ public class ContributionExceptionnelleHautsRevenus {
                 }
             }
         }
-        return contributionExceptionelle;
+        return Math.round(contributionExceptionelle);
     }
 }

@@ -1,12 +1,9 @@
 package com.kerware.simulateurreusine;
-
-import com.kerware.SituationFamiliale;
-
 public class Abattement {
-    private static double tauxAbattement = 0.1;
+    private final static double tauxAbattement = 0.1;
 
-    private static double lAbattementMax = 14171;
-    private static double lAbattementMin = 495;
+    private final static double lAbattementMax = 14171;
+    private final static double lAbattementMin = 495;
 
     public static double getAbbatement(int revenuNetDeclarant){
         if (revenuNetDeclarant == 0) return 0;
@@ -25,8 +22,11 @@ public class Abattement {
         return getAbbatement(revenuNetDeclarant1) + getAbbatement(revenuNetDeclarant2);
     }
 
-
     public static double appliquer(int revenuNetDeclarant){
         return revenuNetDeclarant - getAbbatement(revenuNetDeclarant);
+    }
+
+    public static double getRevenuFiscalDeReference(int revenuNetDeclarant1, int revenuNetDeclarant2){
+        return appliquer(revenuNetDeclarant1) + appliquer(revenuNetDeclarant2);
     }
 }

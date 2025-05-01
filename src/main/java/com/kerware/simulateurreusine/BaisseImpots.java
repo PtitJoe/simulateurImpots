@@ -1,5 +1,7 @@
 package com.kerware.simulateurreusine;
 
+import com.kerware.SituationFamiliale;
+
 public class BaisseImpots {
     private final double montantImpotsDeclarant;
     private final double montantImpots;
@@ -14,6 +16,13 @@ public class BaisseImpots {
         this.montantImpots = montantImpots;
         this.nbParts = nbParts;
         this.nbPartsDeclarant = nbPartsDeclarant;
+    }
+
+    public BaisseImpots(int revenuDeclarant1, int revenuDeclarant2, SituationFamiliale situationFamiliale, int nbEnfants, int nbEnfantsSituationHandicap, boolean parentIso){
+            this(new CalculImpotsDeclarant(revenuDeclarant1, revenuDeclarant2, situationFamiliale, nbEnfants, nbEnfantsSituationHandicap, parentIso).getImpots(),
+                 new CalculImpotsFoyerFiscal(revenuDeclarant1, revenuDeclarant2, situationFamiliale, nbEnfants, nbEnfantsSituationHandicap, parentIso).getImpots(),
+                 new Parts(situationFamiliale, nbEnfants, nbEnfantsSituationHandicap, parentIso).getParts(),
+                 new Parts(situationFamiliale, nbEnfants, nbEnfantsSituationHandicap, parentIso).getPartsDeclarant());
     }
 
     public double getBaisseImpots(){

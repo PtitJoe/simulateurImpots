@@ -4,7 +4,7 @@ import com.kerware.ICalculateurImpot;
 import com.kerware.SituationFamiliale;
 
 public class AdaptateurSimulateurV2 implements ICalculateurImpot {
-    private final SimulateurV2 simulateur = new SimulateurV2();
+    private SimulateurV2 simulateur;
     private int revenusNetDecl1 = 0;
     private int revenusNetDecl2 = 0;
     private SituationFamiliale situationFamiliale;
@@ -45,7 +45,9 @@ public class AdaptateurSimulateurV2 implements ICalculateurImpot {
 
     @Override
     public void calculImpotSurRevenuNet() {
-        simulateur.calculImpot(revenusNetDecl1, revenusNetDecl2 ,situationFamiliale, nbEnfantsACharge, nbEnfantsSituationHandicap, parentIsole);
+        simulateur = new SimulateurV2(revenusNetDecl1, revenusNetDecl2, situationFamiliale,
+                nbEnfantsACharge, nbEnfantsSituationHandicap, parentIsole);
+        simulateur.calculImpot();
     }
 
     @Override

@@ -15,6 +15,9 @@ public class CalculImpots {
         this.revenuFiscalReference = revenuFiscalReference;
     }
 
+    public CalculImpots(int revenuNetDeclarant1, int revenuNetDeclarant2,double nbParts){
+        this(Abattement.getRevenuFiscalDeReference(revenuNetDeclarant1, revenuNetDeclarant2), nbParts);
+    }
     public double getImpots(){
         double montantImpotDeclarant = 0;
         double revenuImposable = getRevenusImposables();

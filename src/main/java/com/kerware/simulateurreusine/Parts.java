@@ -2,21 +2,21 @@ package com.kerware.simulateurreusine;
 
 import com.kerware.SituationFamiliale;
 
-public class PointsDeclarant {
+public class Parts {
 
     private final SituationFamiliale situationFamiliale;
     private final int nbEnfants;
     private final int nbEnfantsSituationHandicap;
     private final boolean parentIso;
 
-    public PointsDeclarant(SituationFamiliale situationFamiliale, int nbEnfants, int nbEnfantsSituationHandicap, boolean parentIso) {
+    public Parts(SituationFamiliale situationFamiliale, int nbEnfants, int nbEnfantsSituationHandicap, boolean parentIso) {
         this.situationFamiliale = situationFamiliale;
         this.nbEnfants = nbEnfants;
         this.nbEnfantsSituationHandicap = nbEnfantsSituationHandicap;
         this.parentIso = parentIso;
     }
 
-    public double getPointsDeclarant(){
+    public double getPartsDeclarant(){
         //situation familiale
         switch(situationFamiliale){
             case MARIE, PACSE -> {
@@ -29,8 +29,8 @@ public class PointsDeclarant {
         return 0;
     }
 
-    public double getPoints(){
-        double points = getPointsDeclarant();
+    public double getParts(){
+        double points = getPartsDeclarant();
 
         // parts enfants à charge
         if ( nbEnfants <= 2 ) {
