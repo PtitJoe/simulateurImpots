@@ -47,7 +47,8 @@ public class AdaptateurSimulateurV2 implements ICalculateurImpot {
     public void calculImpotSurRevenuNet() {
         simulateur = new SimulateurV2(revenusNetDecl1, revenusNetDecl2, situationFamiliale,
                 nbEnfantsACharge, nbEnfantsSituationHandicap, parentIsole);
-        simulateur.calculImpot();
+        int impots = simulateur.calculImpot();
+        System.out.println("impots net calculés par le nouveau code : " + impots);
     }
 
     @Override

@@ -1,5 +1,7 @@
 package com.kerware.simulateurreusine;
 
+import com.kerware.SituationFamiliale;
+
 public class Decote {
 
     private final double nbPartsDeclarant;
@@ -16,8 +18,9 @@ public class Decote {
         this.montantImpots = montantImpots;
     }
 
-    public Decote(int revenusNetDeclarant1, int revenusNetDeclarant2, double nbParts, double nbPartsDeclarant){
-        this(nbPartsDeclarant, new CalculImpots(revenusNetDeclarant1, revenusNetDeclarant2, nbParts).getImpots());
+    public Decote(int revenusNetDeclarant1, int revenusNetDeclarant2, SituationFamiliale situationFamiliale, int nbEnfants, int nbEnfantsSituationHandicap, boolean parentIso){
+        this(new Parts(situationFamiliale, nbEnfants, nbEnfantsSituationHandicap, parentIso).getPartsDeclarant(),
+                new CalculImpotsFoyerFiscal(revenusNetDeclarant1, revenusNetDeclarant2, situationFamiliale, nbEnfants, nbEnfantsSituationHandicap, parentIso).getImpots());
     }
 
     public double getDecote(){

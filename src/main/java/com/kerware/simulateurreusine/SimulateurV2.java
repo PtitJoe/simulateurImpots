@@ -7,28 +7,21 @@ public class SimulateurV2 {
     // revenu net
     private final int revenuNetDeclarant1;
     private final int revenuNetDeclarant2;
-    // nb e finalnfants
+    // nb enfants à charge
     private final int nbEnfants;
-    // nb e finalnfants handicapés
+    // nb enfants en situation de handicap
     private final int nbEnfantsHandicap;
     private final SituationFamiliale situationFamiliale;
     private final boolean isParentIsole;
 
-    // decote
-    private double decote = 0;
-    // impôt du foyer fiscal
-    private double mImp = 0;
-    private double mImpAvantDecote = 0;
-    // parent isolé
-
     // Getters pour adapter le code legacy pour les tests unitaires
-
     public double getRevenuReference() {
         return Abattement.appliquer(revenuNetDeclarant1) + Abattement.appliquer(revenuNetDeclarant2);
     }
 
     public double getDecote() {
-        return decote; //TODO
+        Decote decote = new Decote(revenuNetDeclarant1, revenuNetDeclarant2, situationFamiliale, nbEnfants, nbEnfantsHandicap, isParentIsole);
+        return decote.getDecote();
     }
 
 
@@ -42,11 +35,13 @@ public class SimulateurV2 {
     }
 
     public double getImpotAvantDecote() {
-        return mImpAvantDecote; //TODO
+        BaisseImpots baisseImpots = new BaisseImpots(revenuNetDeclarant1, revenuNetDeclarant2, situationFamiliale, nbEnfants, nbEnfantsHandicap, isParentIsole);
+        return baisseImpots.getImpotsBrutApresPlafonnement();
     }
 
     public double getImpotNet() {
-        return mImp; //TODO
+        ImpotsNet impotsNet = new ImpotsNet(revenuNetDeclarant1, revenuNetDeclarant2, situationFamiliale, nbEnfants, nbEnfantsHandicap, isParentIsole);
+        return  impotsNet.getImpotsNet();
     }
 
     public int getRevenuNetDeclatant1() {
@@ -74,10 +69,9 @@ public class SimulateurV2 {
     }
 
     // Fonction de calcul de l'impôt sur le revenu net en France en 2024 sur les revenu 2023
-
     public int calculImpot() {
 
-        // Préconditions
+        // vérifications de la cohérences des variables
         ValidateurVariables.checkVariables(revenuNetDeclarant1, revenuNetDeclarant2, situationFamiliale, nbEnfants, nbEnfantsHandicap, isParentIsole);
 
         System.out.println("--------------------------------------------------");
@@ -87,85 +81,65 @@ public class SimulateurV2 {
 
         // Abattement
         // EXIGENCE : EXG_IMPOT_02
-        double revenuFiscalDeReference = Abattement.getRevenuFiscalDeReference(revenuNetDeclarant1, revenuNetDeclarant2);
+
         System.out.println( "Abattement : " + Abattement.getAbbatement(revenuNetDeclarant1, revenuNetDeclarant2) );
 
-        System.out.println( "Revenu fiscal de référence : " + revenuFiscalDeReference );
+
+        // revenu fiscal de référence
+        System.out.println( "Revenu fiscal de référence : " + Abattement.getRevenuFiscalDeReference(revenuNetDeclarant1, revenuNetDeclarant2) );
 
 
         // parts déclarants
         // EXIG  : EXG_IMPOT_03
+
         System.out.println( "Nombre d'enfants  : " + this.nbEnfants);
         System.out.println( "Nombre d'enfants handicapés : " + nbEnfantsHandicap);
         System.out.println( "Parent isolé : " + this.isParentIsole);
 
         Parts parts = new Parts(situationFamiliale, this.nbEnfants, nbEnfantsHandicap, this.isParentIsole);
-        double nbPtsDecl = parts.getPartsDeclarant();
-        double nbPts = parts.getParts();
-
-        System.out.println( "Nombre de parts : " + nbPts );
+        System.out.println( "Nombre de parts : " + parts.getParts() );
 
         // EXIGENCE : EXG_IMPOT_07:
         // Contribution exceptionnelle sur les hauts revenus
-        ContributionExceptionnelleHautsRevenus contribution = new ContributionExceptionnelleHautsRevenus(revenuFiscalDeReference, situationFamiliale);
-        double contribExceptionnelle = contribution.getContributionExceptionnelle();
 
-        System.out.println( "Contribution exceptionnelle sur les hauts revenus : " + contribExceptionnelle );
+        ContributionExceptionnelleHautsRevenus contribution = new ContributionExceptionnelleHautsRevenus(revenuNetDeclarant1, revenuNetDeclarant2, situationFamiliale);
+        System.out.println( "Contribution exceptionnelle sur les hauts revenus : " + contribution.getContributionExceptionnelle() );
 
         // Calcul impôt des declarants
         // EXIGENCE : EXG_IMPOT_04
-        CalculImpots calculImpotsDeclarants = new CalculImpots(revenuFiscalDeReference, nbPtsDecl);
-        double montantImpotsDeclarant = calculImpotsDeclarants.getImpots();
 
-        System.out.println( "Impôt brut des déclarants : " + montantImpotsDeclarant);
+        CalculImpots calculImpotsDeclarants = new CalculImpotsDeclarant(revenuNetDeclarant1, revenuNetDeclarant2, situationFamiliale, nbEnfants, nbEnfantsHandicap, isParentIsole);
+        System.out.println( "Impôt brut des déclarants : " + calculImpotsDeclarants.getImpots());
 
         // Calcul impôt foyer fiscal complet
         // EXIGENCE : EXG_IMPOT_04
-        CalculImpots calculImpotsFoyerFiscal = new CalculImpots(revenuFiscalDeReference, nbPts);
-        mImp = calculImpotsFoyerFiscal.getImpots();
 
-        System.out.println( "Impôt brut du foyer fiscal complet : " + mImp );
+        CalculImpots calculImpotsFoyerFiscal = new CalculImpotsFoyerFiscal(revenuNetDeclarant1, revenuNetDeclarant2, situationFamiliale, nbEnfants, nbEnfantsHandicap, isParentIsole);
+        System.out.println( "Impôt brut du foyer fiscal complet : " + calculImpotsFoyerFiscal.getImpots() );
 
         // Vérification de la baisse d'impôt autorisée
         // EXIGENCE : EXG_IMPOT_05
-        // baisse impot
 
-        BaisseImpots baisseImpots = new BaisseImpots(montantImpotsDeclarant,mImp, nbPts, nbPtsDecl);
+        // baisse impot sans verification du plafond
+        BaisseImpots baisseImpots = new BaisseImpots(revenuNetDeclarant1, revenuNetDeclarant2, situationFamiliale, nbEnfants, nbEnfantsHandicap, isParentIsole);
+        System.out.println( "Baisse d'impôt : " + baisseImpots.getBaisseImpots() );
 
-        double baisseImpot = baisseImpots.getBaisseImpots();
+        // calcul du plafond de la baisse d'impots
+        System.out.println( "Plafond de baisse autorisée " + baisseImpots.getPlafondBaisseAutorise() );
 
-        System.out.println( "Baisse d'impôt : " + baisseImpot );
-
-        // dépassement plafond
-
-        double plafond = baisseImpots.getPlafondBaisseAutorise();
-
-        System.out.println( "Plafond de baisse autorisée " + plafond );
-
-        mImp = baisseImpots.getImpotsBrutApresPlafonnement();
-        System.out.println( "Impôt brut après plafonnement avant decote : " + mImp );
-        mImpAvantDecote = mImp;
+        // calcul des impots avant decote
+        System.out.println( "Impôt brut après plafonnement avant decote : " + baisseImpots.getImpotsBrutApresPlafonnement() );
 
         // Calcul de la decote
         // EXIGENCE : EXG_IMPOT_06
-        Decote decoteur = new Decote(nbPtsDecl, mImp);
+        Decote decote = new Decote(revenuNetDeclarant1, revenuNetDeclarant2, situationFamiliale, nbEnfants, nbEnfantsHandicap, isParentIsole);
+        System.out.println( "Decote : " + decote.getDecote() );
 
-        decote = decoteur.getDecote();
+        //calcul final (le seul a être vraiment essentiel
+        ImpotsNet impotsNet = new ImpotsNet(revenuNetDeclarant1, revenuNetDeclarant2, situationFamiliale, nbEnfants, nbEnfantsHandicap, isParentIsole);
+        int impotsNetFinal = impotsNet.getImpotsNet();
+        System.out.println( "Impôt sur le revenu net final : " + impotsNetFinal );
 
-        System.out.println( "Decote : " + decote );
-
-        mImp -= decote;
-
-        mImp += contribExceptionnelle;
-
-        mImp = Math.round( mImp );
-
-        System.out.println( "Impôt sur le revenu net final : " + mImp );
-        return  (int)mImp;
+        return impotsNetFinal;
     }
-
-
-
-
-
 }
