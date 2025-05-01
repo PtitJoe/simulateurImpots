@@ -1,8 +1,8 @@
 package simulateur;
 
-import com.kerware.simulateur.AdaptateurSimulateur;
 import com.kerware.ICalculateurImpot;
 import com.kerware.SituationFamiliale;
+import com.kerware.simulateurreusine.AdaptateurSimulateurV2;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -15,13 +15,13 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class TestsSimulateur {
+public class TestsSimulateurV2 {
 
     private static ICalculateurImpot simulateur;
 
     @BeforeAll
     public static void setUp() {
-        simulateur = new AdaptateurSimulateur();
+        simulateur = new AdaptateurSimulateurV2();
     }
 
     public static Stream<Arguments> donneesPartsFoyerFiscal() {
