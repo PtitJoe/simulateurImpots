@@ -221,7 +221,6 @@ public class SimulateurV2 {
 
         // Abattement
         // EXIGENCE : EXG_IMPOT_02
-
         double revenuFiscalDeReference = Abattement.appliquer(revNetDecl1) + Abattement.appliquer(revNetDecl2);
         System.out.println( "Abattement : " + Abattement.getAbbatement(revNetDecl1, revNetDecl2) );
 
@@ -231,51 +230,13 @@ public class SimulateurV2 {
 
         // parts déclarants
         // EXIG  : EXG_IMPOT_03
-        switch ( sitFam ) {
-            case CELIBATAIRE:
-                nbPtsDecl = 1;
-                break;
-            case MARIE:
-                nbPtsDecl = 2;
-                break;
-            case DIVORCE:
-                nbPtsDecl = 1;
-                break;
-            case VEUF:
-                nbPtsDecl = 1;
-                break;
-            case PACSE:
-                nbPtsDecl = 2;
-                break;
-        }
-
         System.out.println( "Nombre d'enfants  : " + nbEnf );
         System.out.println( "Nombre d'enfants handicapés : " + nbEnfH );
-
-        // parts enfants à charge
-        if ( nbEnf <= 2 ) {
-            nbPts = nbPtsDecl + nbEnf * 0.5;
-        } else if ( nbEnf > 2 ) {
-            nbPts = nbPtsDecl+  1.0 + ( nbEnf - 2 );
-        }
-
-        // parent isolé
-
         System.out.println( "Parent isolé : " + parIso );
 
-        if ( parIso ) {
-            if ( nbEnf > 0 ){
-                nbPts = nbPts + 0.5;
-            }
-        }
-
-        // Veuf avec enfant
-        if ( sitFam == SituationFamiliale.VEUF && nbEnf > 0 ) {
-            nbPts = nbPts + 1;
-        }
-
-        // enfant handicapé
-        nbPts = nbPts + nbEnfH * 0.5;
+        PointsDeclarant pointsDeclarant = new PointsDeclarant(sitFam, nbEnf, nbEnfH, parIso);
+        nbPtsDecl = pointsDeclarant.getPointsDeclarant();
+        nbPts = pointsDeclarant.getPoints();
 
         System.out.println( "Nombre de parts : " + nbPts );
 
