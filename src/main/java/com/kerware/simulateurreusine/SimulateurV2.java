@@ -4,26 +4,6 @@ import com.kerware.SituationFamiliale;
 
 public class SimulateurV2 {
 
-
-    // Les limites des tranches de revenus imposables
-    private int l00 = 0 ;
-    private int l01 = 11294;
-    private int l02 = 28797;
-    private int l03 = 82341;
-    private int l04 = 177106;
-    private int l05 = Integer.MAX_VALUE;
-
-    private int[] limites = new int[6];
-
-    // Les taux d'imposition par tranche
-    private double t00 = 0.0;
-    private double t01 = 0.11;
-    private double t02 = 0.3;
-    private double t03 = 0.41;
-    private double t04 = 0.45;
-
-    private double[] taux = new double[5];
-
     // Abattement
     private  int lAbtMax = 14171;
     private  int lAbtMin = 495;
@@ -160,19 +140,6 @@ public class SimulateurV2 {
         nbEnfH = nbEnfantsHandicapes;
         parIso = parentIsol;
 
-        limites[0] = l00;
-        limites[1] = l01;
-        limites[2] = l02;
-        limites[3] = l03;
-        limites[4] = l04;
-        limites[5] = l05;
-
-        taux[0] = t00;
-        taux[1] = t01;
-        taux[2] = t02;
-        taux[3] = t03;
-        taux[4] = t04;
-
         System.out.println("--------------------------------------------------");
         System.out.println( "Revenu net declarant1 : " + rNetDecl1 );
         System.out.println( "Revenu net declarant2 : " + rNetDecl2 );
@@ -184,7 +151,7 @@ public class SimulateurV2 {
         System.out.println( "Abattement : " + Abattement.getAbbatement(revNetDecl1, revNetDecl2) );
 
         rFRef = revenuFiscalDeReference;
-        System.out.println( "Revenu fiscal de référence : " + rFRef );
+        System.out.println( "Revenu fiscal de référence : " + revenuFiscalDeReference );
 
 
         // parts déclarants
@@ -210,44 +177,17 @@ public class SimulateurV2 {
 
         // Calcul impôt des declarants
         // EXIGENCE : EXG_IMPOT_04
-        rImposable = rFRef / nbPtsDecl ;
-
-        mImpDecl = 0;
-
-        int i = 0;
-        do {
-            if ( rImposable >= limites[i] && rImposable < limites[i+1] ) {
-                mImpDecl += ( rImposable - limites[i] ) * taux[i];
-                break;
-            } else {
-                mImpDecl += ( limites[i+1] - limites[i] ) * taux[i];
-            }
-            i++;
-        } while( i < 5);
-
-        mImpDecl = mImpDecl * nbPtsDecl;
-        mImpDecl = Math.round( mImpDecl );
+        CalculImpots calculImpotsDeclarants = new CalculImpots(revenuFiscalDeReference, nbPtsDecl);
+        rImposable = calculImpotsDeclarants.getRevenusImposables();
+        mImpDecl = calculImpotsDeclarants.getImpots();
 
         System.out.println( "Impôt brut des déclarants : " + mImpDecl );
 
         // Calcul impôt foyer fiscal complet
         // EXIGENCE : EXG_IMPOT_04
-        rImposable =  rFRef / nbPts;
-        mImp = 0;
-        i = 0;
-
-        do {
-            if ( rImposable >= limites[i] && rImposable < limites[i+1] ) {
-                mImp += ( rImposable - limites[i] ) * taux[i];
-                break;
-            } else {
-                mImp += ( limites[i+1] - limites[i] ) * taux[i];
-            }
-            i++;
-        } while( i < 5);
-
-        mImp = mImp * nbPts;
-        mImp = Math.round( mImp );
+        CalculImpots calculImpotsFoyerFiscal = new CalculImpots(revenuFiscalDeReference, nbPts);
+        rImposable = calculImpotsFoyerFiscal.getRevenusImposables();
+        mImp = calculImpotsFoyerFiscal.getImpots();
 
         System.out.println( "Impôt brut du foyer fiscal complet : " + mImp );
 
