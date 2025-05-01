@@ -4,10 +4,10 @@ import com.kerware.SituationFamiliale;
 
 public class PointsDeclarant {
 
-    private SituationFamiliale situationFamiliale;
-    private int nbEnfants;
-    private int nbEnfantsSituationHandicap;
-    private boolean parentIso;
+    private final SituationFamiliale situationFamiliale;
+    private final int nbEnfants;
+    private final int nbEnfantsSituationHandicap;
+    private final boolean parentIso;
 
     public PointsDeclarant(SituationFamiliale situationFamiliale, int nbEnfants, int nbEnfantsSituationHandicap, boolean parentIso) {
         this.situationFamiliale = situationFamiliale;
