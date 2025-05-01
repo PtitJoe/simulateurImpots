@@ -2,11 +2,9 @@ package com.kerware.simulateurreusine;
 
 import com.kerware.ICalculateurImpot;
 import com.kerware.SituationFamiliale;
-import com.kerware.simulateur.Simulateur;
 
 public class AdaptateurSimulateurV2 implements ICalculateurImpot {
-    private Simulateur simulateur = new Simulateur();
-
+    private final SimulateurV2 simulateur = new SimulateurV2();
     private int revenusNetDecl1 = 0;
     private int revenusNetDecl2 = 0;
     private SituationFamiliale situationFamiliale;
