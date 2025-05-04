@@ -23,8 +23,9 @@ Le code est donc organisé de la manière suivante :
          et qui va faire appel à d'autres classes pour les transformer en variables plus spécifiques :
            Par exemple : La classe Decote a besoin du nombre de parts du déclarant et du montant d'impots avant la decote
                          Elle a donc un constructeur qui prend ces paramètres.
-                         Mais elle a aussi un autre constructeur qui appel la classe Parts et la Classe CalculImpotsFoyerFiscal pour obtenir les parts et le montant d'impots
-                         Ce constructeur ci ne prend donc que deux variables simples : les revenus du déclarant 1 et du déclarant 2
+                         Mais elle a aussi un autre constructeur qui appel la classe Parts et la Classe CalculImpots pour obtenir les parts et le montant d'impots
+                         Ce constructeur ci ne prend donc que quelques variables simples : les revenus du déclarant 1, du déclarant 2 la situation familiale,
+                         le nb d'enfants à charge et le nombre d'enfants handicapés et enfin si le parent est isolé ou non
       - Une ou plusieurs méthodes qui effectuent des calculs avec les variables stockées et retournent la valeur calculée ex: getDecote pour la classe Decote
      De cette manière chaque classe n'effectue qu'un calcul et demande aux autres de se charger des calculs antérieurs
   4. Enfin il y a les classes et fichiers de tests dans le dossier de tests mais qui n'ont été modifiés que très légèrement:
@@ -35,11 +36,3 @@ Le code réusiné a donc une couverture de code de :
   96 % pour les instructions
   91 % pour les branches
 Aucun warning ni erreur sur checkstyle (les warnings trouvés sont ceux du code legacy)
-
-
-Explications Complétmentaires : 
-Il y a un héritage dans sur la classe CalulImpots
-En effet la classe pouvait à l'origine calculer les impots du déclarant et du foyer fiscal mais il était difficile de faire un constructeur qui appelait les bonnes classes en fonction du souhait de l'utilisateur
-Pour plus de clareté et pour éviter ce problème il y a maintenant deux classes filles : CalculImpotDeclarant et CalculImpotFoyerFiscal qui appellent soit getpartsDeclarant soit getParts en fonction de la classe
-       
-  
