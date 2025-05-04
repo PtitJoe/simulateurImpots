@@ -1,4 +1,4 @@
-# simulateurImpots
+# Simulateur d'impôts
 
 Ce repository a pour but mettre en place une technique de réagencement de legacy code. <br>
 Le legacy code donné est une classe permettant d'obtenir le montant d'impots net à payer en fonction de plusieurs paramètres.<br>
@@ -39,3 +39,5 @@ Le code réusiné a donc une couverture de code de :<br>
   96 % pour les instructions<br>
   91 % pour les branches<br>
 Aucun warning ni erreur sur checkstyle (les warnings trouvés sont ceux du code legacy)<br>
+
+CHERRIER Mathias & LE DUFF Jonas 
