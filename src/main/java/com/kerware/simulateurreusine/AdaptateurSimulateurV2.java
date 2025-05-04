@@ -3,6 +3,9 @@ package com.kerware.simulateurreusine;
 import com.kerware.ICalculateurImpot;
 import com.kerware.SituationFamiliale;
 
+/**
+ * Cet Adaptateur permet à la classe SimulateurV2 d'être testée par le TestSimulateurV2
+ */
 public final class AdaptateurSimulateurV2 implements ICalculateurImpot {
     private SimulateurV2 simulateur;
     private int revenusNetDecl1 = 0;

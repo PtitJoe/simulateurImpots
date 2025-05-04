@@ -4,12 +4,26 @@ import com.kerware.SituationFamiliale;
 
 public class ValidateurVariables {
 
+    /**
+     * Nombre d'enfants maximal que l'utilisateur peut rentrer
+     */
     private static final int NB_ENFANTS_MAX = 7;
-    public static void checkVariables(int revNetDecl1,
-                                      int revNetDecl2, SituationFamiliale sitFam, int nbEnfants,
-                                      int nbEnfantsHandicapes, boolean parentIsol)
+
+    /**
+     * Vérifie que toutes les variables entrées par l'utilisateur sont bien cohérentes
+     * @param revenuNetDeclarant1 revenu du premier déclarant
+     * @param revenuNetDeclarant2 revenu du deuxième déclarant
+     * @param situationFamiliale Situation familiale qui vient de l'énumération SituationFamiliale
+     * @param nbEnfants nombre d'enfants à charge
+     * @param nbEnfantsHandicap nombre d'enfants Handicapés à charge (parmi le total d'enfants)
+     * @param isParentIsole Si le déclarant est isolé ou non
+     * @throws IllegalArgumentException Si au moins une incohérence est trouvée
+     */
+    public static void checkVariables(int revenuNetDeclarant1, int revenuNetDeclarant2,
+                                      SituationFamiliale situationFamiliale, int nbEnfants,
+                                      int nbEnfantsHandicap, boolean isParentIsole)
             throws IllegalArgumentException{
-        if ( revNetDecl1  < 0 || revNetDecl2 < 0 ) {
+        if ( revenuNetDeclarant1  < 0 || revenuNetDeclarant2 < 0 ) {
             throw new IllegalArgumentException("Le revenu net ne peut pas être négatif");
         }
 
@@ -17,16 +31,16 @@ public class ValidateurVariables {
             throw new IllegalArgumentException("Le nombre d'enfants ne peut pas être négatif");
         }
 
-        if ( nbEnfantsHandicapes < 0 ) {
+        if ( nbEnfantsHandicap < 0 ) {
             throw new IllegalArgumentException("Le nombre d'enfants handicapés ne " +
                     "peut pas être négatif");
         }
 
-        if ( sitFam == null ) {
+        if ( situationFamiliale == null ) {
             throw new IllegalArgumentException("La situation familiale ne peut pas être null");
         }
 
-        if ( nbEnfantsHandicapes > nbEnfants ) {
+        if ( nbEnfantsHandicap > nbEnfants ) {
             throw new IllegalArgumentException("Le nombre d'enfants handicapés ne " +
                     "peut pas être supérieur au nombre d'enfants");
         }
@@ -36,8 +50,8 @@ public class ValidateurVariables {
                     "peut pas être supérieur à 7");
         }
 
-        if ( parentIsol && ( sitFam == SituationFamiliale.MARIE ||
-                sitFam == SituationFamiliale.PACSE ) ) {
+        if ( isParentIsole && ( situationFamiliale == SituationFamiliale.MARIE ||
+                situationFamiliale == SituationFamiliale.PACSE ) ) {
             throw new IllegalArgumentException("Un parent isolé ne " +
                     "peut pas être marié ou pacsé");
         }

@@ -16,8 +16,7 @@ public final class SimulateurV2 {
 
     // Getters pour adapter le code legacy pour les tests unitaires
     public double getRevenuReference() {
-        return Abattement.appliquer(revenuNetDeclarant1) +
-                Abattement.appliquer(revenuNetDeclarant2);
+        return Abattement.getRevenuFiscalDeReference(revenuNetDeclarant1 , revenuNetDeclarant2);
     }
 
     public double getDecote() {
@@ -27,7 +26,7 @@ public final class SimulateurV2 {
     }
 
     public double getAbattement() {
-        return Abattement.getAbbatement(getRevenuNetDeclarant1(),
+        return Abattement.getAbattement(getRevenuNetDeclarant1(),
                 getRevenuNetDeclarant2());
     }
 
@@ -77,9 +76,10 @@ public final class SimulateurV2 {
         this.isParentIsole = newIsParentIsole;
     }
 
-    // Fonction de calcul de l'impôt sur le revenu net en France en 2024 sur les revenu 2023
+    // Fonction de calcul de l'impôt sur le revenu net en France en 2024 sur les revenus 2023
+    // effectue le même affichage que la fonction calculImpot du Simulateur précédent
     public int calculImpot() {
-        // vérifications de la cohérences des variables
+        // vérifications de la cohérence des variables
         ValidateurVariables.checkVariables(revenuNetDeclarant1,
                 revenuNetDeclarant2, situationFamiliale, nbEnfants,
                 nbEnfantsHandicap, isParentIsole);
@@ -94,12 +94,11 @@ public final class SimulateurV2 {
                         revenuNetDeclarant1, revenuNetDeclarant2, situationFamiliale);
         System.out.println( "Contribution exceptionnelle sur les hauts revenus : "
                 + contribution.getContributionExceptionnelle() );
-        CalculImpots calculImpotsDeclarants = new CalculImpotsDeclarant(
-                revenuNetDeclarant1, revenuNetDeclarant2, situationFamiliale,
-                nbEnfants, nbEnfantsHandicap, isParentIsole);
+        CalculImpots calculImpotsDeclarants = new CalculImpots(
+                revenuNetDeclarant1, revenuNetDeclarant2, situationFamiliale);
         System.out.println( "Impôt brut des déclarants : " +
                 calculImpotsDeclarants.getImpots() );
-        CalculImpots calculImpotsFoyerFiscal = new CalculImpotsFoyerFiscal(
+        CalculImpots calculImpotsFoyerFiscal = new CalculImpots(
                 revenuNetDeclarant1, revenuNetDeclarant2, situationFamiliale,
                 nbEnfants, nbEnfantsHandicap, isParentIsole);
         System.out.println( "Impôt brut du foyer fiscal complet : " +
@@ -109,14 +108,14 @@ public final class SimulateurV2 {
                 revenuNetDeclarant2, situationFamiliale, nbEnfants,
                 nbEnfantsHandicap, isParentIsole);
         System.out.println( "Baisse d'impôt : " + baisseImpots.getBaisseImpots() );
-        // calcul du plafond de la baisse d'impots
+        // calcul du plafond de la baisse d'impôts
         System.out.println( "Plafond de baisse autorisée " +
                 baisseImpots.getPlafondBaisseAutorise() );
         // calcul des impots avant decote
         System.out.println( "Impôt brut après plafonnement avant decote : " +
                  getImpotAvantDecote() );
         System.out.println( "Decote : " + getDecote() );
-        //calcul final (le seul a être vraiment essentiel)
+        //calcul final (le seul à être vraiment essentiel)
         ImpotsNet impotsNet = new ImpotsNet(revenuNetDeclarant1, revenuNetDeclarant2,
                 situationFamiliale, nbEnfants, nbEnfantsHandicap, isParentIsole);
         int impotsNetFinal = impotsNet.getImpotsNet();
