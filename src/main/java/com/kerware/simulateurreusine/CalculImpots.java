@@ -59,7 +59,8 @@ public class CalculImpots {
      * @param revenuNetDeclarant2 revenu du deuxième déclarant
      * @param situationFamiliale Situation familiale qui vient de l'énumération SituationFamiliale
      * @param nbEnfants nombre d'enfants à charge
-     * @param nbEnfantsSituationHandicap nombre d'enfants Handicapés à charge (parmi le total d'enfants)
+     * @param nbEnfantsSituationHandicap nombre d'enfants Handicapés à charge
+     *                                   (parmi le total d'enfants)
      * @param isParentIso Si le déclarant est isolé ou non
      */
     public CalculImpots(int revenuNetDeclarant1, int revenuNetDeclarant2,

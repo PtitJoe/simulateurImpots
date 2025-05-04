@@ -14,9 +14,11 @@ public final class Parts {
      * <h4>Constructeur</h4>
      * Seul et unique constructeur de cette classe car elle n'a besoin
      * que de paramètres étant des variables atomiques
-     * @param newSituationFamiliale Situation familiale qui vient de l'énumération SituationFamiliale
+     * @param newSituationFamiliale Situation familiale qui vient de
+     *                              l'énumération SituationFamiliale
      * @param newNbEnfants nombre d'enfants à charge
-     * @param newNbEnfantsSituationHandicap nombre d'enfants Handicapés à charge (parmi le total d'enfants)
+     * @param newNbEnfantsSituationHandicap nombre d'enfants Handicapés
+     *                                      à charge (parmi le total d'enfants)
      * @param newIsParentIso Si le déclarant est isolé ou non
      */
     public Parts(SituationFamiliale newSituationFamiliale, int newNbEnfants,

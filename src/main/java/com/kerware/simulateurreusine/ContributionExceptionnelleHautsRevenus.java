@@ -14,9 +14,11 @@ public final class ContributionExceptionnelleHautsRevenus {
     //Definition des tranches de Contribution Exceptionnelle sur les Hauts Revenus
     private static final ArrayList<Integer> TRANCHES_CEHR =
             new ArrayList<>(List.of(0, 250000, 500000, 1000000, Integer.MAX_VALUE));
-    //Definition des taux de Contribution Exceptionnelle sur les Hauts Revenus pour les Célibataires
+    //Definition des taux de Contribution Exceptionnelle sur
+    // les Hauts Revenus pour les Célibataires
     /**
-     * Définition des taux de Contribution Exceptionnelle sur les Hauts Revenus pour les Célibataires
+     * Définition des taux de Contribution Exceptionnelle sur
+     * les Hauts Revenus pour les Célibataires
      * pour chaque tranche de {@link #TRANCHES_CEHR}
      */
     private static final ArrayList<Double> TAUX_CEHR_CELIBATAIRE =
@@ -33,7 +35,9 @@ public final class ContributionExceptionnelleHautsRevenus {
      * <h4>Premier constructeur à usage déconseillé</h4><br>
      * Prend en paramètre des variables difficile à obtenir
      * Le deuxième constructeur est plus simple d'usage
-     * @param newRevenuFiscalReference revenu fiscal de référence Calculable par Abattement.getRevenuFiscalDeReference(int, int)
+     * @param newRevenuFiscalReference revenu fiscal de référence
+     *                                 Calculable par
+     *                                 Abattement.getRevenuFiscalDeReference(int, int)
      * @param situationFamiliale Situation familiale qui vient de l'énumération SituationFamiliale
      */
     public ContributionExceptionnelleHautsRevenus(double newRevenuFiscalReference,

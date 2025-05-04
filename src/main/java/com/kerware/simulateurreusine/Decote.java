@@ -33,8 +33,10 @@ public final class Decote {
      * <h4>Premier constructeur à usage déconseillé</h4><br>
      * Prend en paramètre des variables difficile à obtenir
      * Le deuxième constructeur est plus simple d'usage
-     * @param newNbPartsDeclarant quantité de parts du déclarant Calculable par Parts.getPartsDeclarant()
-     * @param newMontantImpots montant d'impôts avant décote Calculable par BaisseImpôts.getImpotsBrutAprèsPlafonnement()
+     * @param newNbPartsDeclarant quantité de parts du déclarant Calculable par
+     *                            Parts.getPartsDeclarant()
+     * @param newMontantImpots montant d'impôts avant décote Calculable par
+     *                         BaisseImpôts.getImpotsBrutAprèsPlafonnement()
      */
     public Decote(double newNbPartsDeclarant, double newMontantImpots) {
         this.nbPartsDeclarant = newNbPartsDeclarant;
@@ -48,7 +50,8 @@ public final class Decote {
      * @param revenuNetDeclarant2 revenu du deuxième déclarant
      * @param situationFamiliale Situation familiale qui vient de l'énumération SituationFamiliale
      * @param nbEnfants nombre d'enfants à charge
-     * @param nbEnfantsSituationHandicap nombre d'enfants Handicapés à charge (parmi le total d'enfants)
+     * @param nbEnfantsSituationHandicap nombre d'enfants Handicapés à charge
+     *                                   (parmi le total d'enfants)
      * @param isParentIso Si le déclarant est isolé ou non
      */
     public Decote(int revenuNetDeclarant1, int revenuNetDeclarant2,

@@ -41,7 +41,8 @@ public class Abattement {
      * @return l'abattement des deux revenus sous forme de double
      */
     public static double getAbattement(int revenuNetDeclarant1, int revenuNetDeclarant2) {
-        return Abattement.getAbattement(revenuNetDeclarant1) + Abattement.getAbattement(revenuNetDeclarant2);
+        return Abattement.getAbattement(revenuNetDeclarant1) +
+                Abattement.getAbattement(revenuNetDeclarant2);
     }
 
     /**

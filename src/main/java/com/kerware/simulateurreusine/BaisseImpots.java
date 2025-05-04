@@ -42,7 +42,8 @@ public final class BaisseImpots {
      * @param revenuDeclarant2 revenu du deuxième déclarant
      * @param situationFamiliale Situation familiale qui vient de l'énumération SituationFamiliale
      * @param nbEnfants nombre d'enfants à charge
-     * @param nbEnfantsSituationHandicap nombre d'enfants Handicapés à charge (parmi le total d'enfants)
+     * @param nbEnfantsSituationHandicap nombre d'enfants Handicapés à charge
+     *                                   (parmi le total d'enfants)
      * @param parentIso Si le déclarant est isolé ou non
      */
     public BaisseImpots(int revenuDeclarant1, int revenuDeclarant2,

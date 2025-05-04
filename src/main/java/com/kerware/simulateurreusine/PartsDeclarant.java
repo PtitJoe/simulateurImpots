@@ -9,7 +9,8 @@ public class PartsDeclarant {
     /**
      * <h4>Constructeur</h4>
      * Seul et unique constructeur car cette classe ne prend que des paramètres atomiques
-     * @param newSituationFamiliale Situation familiale qui vient de l'énumération SituationFamiliale
+     * @param newSituationFamiliale Situation familiale qui vient de
+     *                              l'énumération SituationFamiliale
      */
     public PartsDeclarant(SituationFamiliale newSituationFamiliale){
         this.situationFamiliale = newSituationFamiliale;
